@@ -10,7 +10,7 @@ namespace Products_Repo.Repository
   public interface IProductRepo
     {
         Task<Product> GetProduct(Guid id);
-        //Task<IEnumerable<Product>> GetCatalogPageAsync(GetCatalogDto getCatalog);
+        Task<List<Product>> GetProducts();
         //Task<IEnumerable<Product>> SearchProductsAsync(SearchDto search);
         Task<Guid> AddProductAsync(Product newProduct);
         Task<Product> EditProductAsync(Guid id, Product newProduct);

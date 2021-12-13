@@ -48,12 +48,12 @@ namespace Products_MVC.Services
             return product;
         }
 
-        public async Task<IEnumerable<Products>> SearchProductsAsync(string productName)
+        public async Task<List<Products>> GetProducts()
         {
-            string searchProductUri = $"/api/Products/Search?name={productName}";
+            string searchProductUri = $"/api/Products/GetProducts";
             var response = await hc.GetAsync(searchProductUri);
             response.EnsureSuccessStatusCode();
-            var products = await response.Content.ReadAsAsync<IEnumerable<Products>>();
+            var products = await response.Content.ReadAsAsync<List<Products>>();
             return products;
         }
 
@@ -82,7 +82,7 @@ namespace Products_MVC.Services
 
         public async Task<Products> EditProductAsync(Products editProduct)
         {
-            string EditProductUri = $"/api/Products/EditProduct?id={editProduct.Id}";
+            string EditProductUri = $"/api/Products/EditProduct?id={editProduct.Sku}";
             string json = JsonConvert.SerializeObject(editProduct);
             var tmp = new StringContent(json, Encoding.UTF8);
             var response = await hc.PutAsync(EditProductUri,

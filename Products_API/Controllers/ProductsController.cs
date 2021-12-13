@@ -51,27 +51,26 @@ namespace Products_API.Controllers
         //    return Ok(products);
         //}
 
-        ///// <summary>
-        /////     Search for products that match the query.
-        ///// </summary>
-        ///// <remarks>
-        /////     Sample request:
-        /////     GET api/Catalog/GetProduct?name=lamp&amp;minPrice=10
-        ///// </remarks>
-        ///// <returns>A list of the matching products.</returns>
-        ///// <response code="200">Returns a list of the matching products.</response>
-        ///// <response code="400">If the query is not valid.</response>
-        //[HttpGet]
-        //[Route("[action]")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> Search([FromQuery] SearchDto search)
-        //{
-        //    _logger.LogThisMethod();
-        //    var products = await _catalogService.SearchProductsAsync(search);
-        //    return Ok(products);
-        //}
+        /// <summary>
+        ///     Search for products that match the query.
+        /// </summary>
+        /// <remarks>
+        ///     Sample request:
+        ///     GET api/Catalog/GetProduct?name=lamp&amp;minPrice=10
+        /// </remarks>
+        /// <returns>A list of the matching products.</returns>
+        /// <response code="200">Returns a list of the matching products.</response>
+        /// <response code="400">If the query is not valid.</response>
+        [HttpGet]
+        [Route("[action]")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(List<Product>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetProducts()
+        {
+            var products = await _productRepo.GetProducts();
+            return Ok(products);
+        }
 
         /// <summary>
         ///     Search for a product by Id

@@ -96,5 +96,11 @@ namespace Products_API.Repository
 
             return null;
         }
+
+        public async Task<List<Product>> GetProducts()
+        {
+            var products = _context.Products.ToList();
+            return (products);
+        }
     }
 }

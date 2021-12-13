@@ -18,9 +18,10 @@ namespace Products_MVC.Controllers
         public ProductsController(IProductService productService) =>
             _proudctService = productService;
 
-        public IActionResult Index()
+        public async Task<IActionResult >Index()
         {
-            return View();
+            var result = await _proudctService.GetProducts();
+                return View(result);
         }
 
         [HttpGet]
@@ -50,7 +51,7 @@ namespace Products_MVC.Controllers
 
                     // concatenating  FileName + FileExtension
                     var newFileName = String.Concat(myUniqueFileName, fileExtension);
-                    newProduct.Images = newFileName + ",";
+                    newProduct.Images+= newFileName + ",";
                     // Combines two strings into a path.
                     var filepath =
                     new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images")).Root + $@"\{newFileName}";
@@ -69,14 +70,22 @@ namespace Products_MVC.Controllers
         }
 
         [HttpGet]
-        [Route("EditProduct/{id}")]
-        public async Task<IActionResult> EditProduct([FromRoute] Guid id)
+        [Route("EditProduct/{sku}")]
+        public async Task<IActionResult> EditProduct([FromRoute] Guid sku)
         {
             ViewData["Message"] = "Edit Product";
-            var products = await _proudctService.GetProduct(id);
+            var products = await _proudctService.GetProduct(sku);
             return View(products);
         }
 
+        [HttpGet]
+        [Route("DetailsProduct/{sku}")]
+        public async Task<IActionResult> DetailsProduct([FromRoute] Guid sku)
+        {
+            ViewData["Message"] = "Details Product";
+            var products = await _proudctService.GetProduct(sku);
+            return View(products);
+        }
         [HttpGet]
         [Route("EditProduct")]
         public async Task<IActionResult> EditProduct([FromQuery] Products newProduct)
@@ -85,6 +94,16 @@ namespace Products_MVC.Controllers
             if (result != null)
                 return RedirectToAction("Index");
             return BadRequest("Edit product error");
+        }
+
+
+        [HttpDelete("{sku}")]
+        [Route("DeleteProduct")]
+        public async Task<IActionResult> DeleteProduct([FromQuery] Guid sku)
+        {
+            var products = await _proudctService.DeleteProductAsync(sku);
+            return View(products);
+         
         }
     }
 }

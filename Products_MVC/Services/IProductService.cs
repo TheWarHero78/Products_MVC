@@ -9,7 +9,7 @@ namespace Products_MVC.Services
     public interface IProductService
     {
         Task<bool> AddProductAsync(Products newProduct);
-        Task<IEnumerable<Products>> SearchProductsAsync(string productName);
+        Task<List<Products>> GetProducts();
         Task<Products> DeleteProductAsync(Guid id);
         Task<Products> EditProductAsync(Products newProduct);
         Task<Products> GetProduct(Guid id);
